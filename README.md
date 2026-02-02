@@ -112,7 +112,7 @@ O ponto central permanece: escolha por contexto, não por dogma.
 
 ### 📄 Artigo Completo
 
-👉 [Leia o artigo completo aqui](https://me-documentacao.github.io/persistencia-contextual-db/)
+👉 [Leia o artigo completo aqui](artigo/artigo_arquitetura_DB.pdf)
 
 ### 📌 Observação Final
 
