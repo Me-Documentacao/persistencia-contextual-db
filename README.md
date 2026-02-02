@@ -43,7 +43,8 @@ O argumento **não é de equivalência técnica**, mas de **adequação ao probl
 ```text
 .
 ├── artigo/
-│   └── artigo.md          # Artigo completo
+│   ├── artigo_arquitetura_DB.docx  # Versão editável (Word)
+│   └── artigo_arquitetura_DB.pdf   # Versão para leitura
 ├── diagramas/
 │   ├── arquitetura.mmd    # Diagramas de arquitetura
 │   └── fluxo-seguranca.mmd
