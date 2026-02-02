@@ -1,45 +1,126 @@
 # Persistência Contextual em Arquitetura de Software
 
-Este repositório acompanha o artigo **“Nem todo sistema precisa de um banco de dados: uma decisão arquitetural contextual”**.
+> Nem todo sistema precisa de um banco de dados transacional.
+> Às vezes, persistência simples — com trade-offs explícitos — é a decisão correta.
 
-O objetivo não é propor substituição de bancos de dados tradicionais, mas discutir **quando eles são excesso** e quando soluções de persistência mais simples podem ser adequadas ao problema real.
+Este repositório acompanha o artigo **“Nem todo sistema precisa de um banco de dados: uma decisão arquitetural contextual”**, cujo objetivo é discutir **quando bancos transacionais são excesso** e **quando abordagens de persistência mais simples fazem mais sentido**, sob a ótica de contexto, custo e maturidade do sistema.
 
-## A tese central
+---
 
-Nem todo sistema precisa nascer com um banco de dados transacional tradicional.
+## 🎯 Objetivo do Projeto
 
-Em determinados cenários — como MVPs, automações e sistemas internos — o requisito real pode ser apenas persistência tabular acessível por API, com baixo custo operacional e possibilidade de inspeção humana.
+Este **não é um repositório de código produtivo** nem uma biblioteca reutilizável.
 
-Nesses casos, soluções como Google Sheets + Google Apps Script **podem ser uma decisão arquitetural consciente**, desde que seus limites sejam explícitos e assumidos.
+O objetivo é:
 
-## O que este repositório contém
+- Discutir **decisão arquitetural**, não ferramenta
+- Explorar **trade-offs reais**, não soluções mágicas
+- Questionar o uso automático de bancos transacionais em:
+  - MVPs
+  - Sistemas internos
+  - Fluxos simples com baixa concorrência
+- Demonstrar que **persistência ≠ banco de dados transacional**
 
-- O artigo completo em formato `.docx` / `.pdf`
-- Diagramas conceituais da arquitetura
-- Um script em Python que gera o artigo formatado automaticamente em Word
-- Exemplos didáticos (não produtivos)
+---
 
-## O que este repositório NÃO é
+## 🧠 Tese Central
 
-- Não é uma recomendação genérica
-- Não é uma solução escalável
-- Não é adequado para sistemas críticos ou financeiros
+> Arquitetura madura não é maximalista.
+> Ela é **contextual, consciente e evolutiva**.
 
-## Quando faz sentido
+Em determinados cenários, soluções de persistência tabular acessadas por API — como **Google Sheets + Google Apps Script** — podem ser **arquiteturalmente válidas**, desde que:
 
-- Baixa concorrência
+- As limitações sejam conhecidas
+- Os riscos sejam assumidos
+- O contexto justifique a escolha
+
+O argumento **não é de equivalência técnica**, mas de **adequação ao problema**.
+
+---
+
+## 📐 Conteúdo do Repositório
+
+```text
+.
+├── artigo/
+│   └── artigo.md          # Artigo completo
+├── diagramas/
+│   ├── arquitetura.mmd    # Diagramas de arquitetura
+│   └── fluxo-seguranca.mmd
+└── README.md              # Este arquivo
+```
+
+### 🏗️ Arquitetura Discutida (Alto Nível)
+
+```mermaid
+sequenceDiagram
+    participant C as Cliente
+    participant API as Apps Script
+    participant GS as Google Sheets
+
+    C->>API: HTTP Request
+    API->>GS: Leitura / Escrita
+    GS-->>API: Dados
+    API-->>C: JSON
+```
+
+O foco não é “substituir backends tradicionais”, mas reduzir fricção quando a complexidade da infraestrutura é maior que o problema resolvido.
+
+### ⚠️ Limitações Assumidas
+
+Esta abordagem não é ACID e não escala indefinidamente.
+
+Limitações reais incluem:
+
+- Race conditions
+- Inconsistência temporal
+- Ausência de transações
+- Dependência do ecossistema Google (lock-in)
+
+Essas limitações não são ignoradas — elas fazem parte da decisão.
+
+### 🧩 Quando Faz Sentido
+
+**✔ Faz sentido quando:**
+
+- Poucos usuários simultâneos
 - Baixa taxa de escrita
-- Dados pouco críticos
+- Dados de baixa criticidade
 - Necessidade de inspeção humana
-- Foco em agilidade e baixo custo operacional
+- Foco em velocidade e baixo custo operacional
 
-## Quando evitar
+**✖ Evite quando:**
 
-- Transações complexas
-- Concorrência elevada
-- Requisitos fortes de consistência
-- SLA rigoroso
+- Há concorrência elevada
+- Os dados são críticos ou sensíveis
+- São necessárias transações complexas
+- Existe exigência de SLA rigoroso
 
-## Licença
+### 🔁 Alternativas no Mesmo Espaço Arquitetural
 
-Uso educacional e técnico. Use com responsabilidade arquitetural.
+Este repositório não defende Sheets como solução universal.
+
+Outras opções de baixa fricção incluem:
+
+- Airtable
+- Firebase
+- Supabase (setup mínimo)
+- Notion (com ressalvas)
+
+O ponto central permanece: escolha por contexto, não por dogma.
+
+### 📄 Artigo Completo
+
+👉 [Leia o artigo completo aqui](https://me-documentacao.github.io/persistencia-contextual-db/)
+
+### 📌 Observação Final
+
+Este projeto é um convite à reflexão arquitetural.
+
+Antes de perguntar:
+
+“Qual banco de dados usar?”
+
+Talvez a pergunta correta seja:
+
+“Qual nível de persistência esse problema realmente exige agora?”
